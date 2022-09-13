@@ -1,4 +1,5 @@
 data/
+wget-log
 
 # History files
 .Rhistory
