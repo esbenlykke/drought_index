@@ -2,8 +2,8 @@ rule targets:
   input:
     "data/ghcnd_all.tar.gz",
     "data/ghcnd_all_filenames.txt",
-    "data/ghcnd_inventory.txt",
-    "data/ghcnd_stations.txt"
+    "data/ghcnd-inventory.txt",
+    "data/ghcnd-stations.txt"
 
 rule get_all_archive:
     input:
@@ -28,9 +28,9 @@ rule get_inventory:
   input:
     script = "code/get_ghcnd_data.sh"
   output:
-    "data/ghcnd_inventory.txt"
+    "data/ghcnd-inventory.txt"
   params:
-    file = "ghcnd_inventory.txt"
+    file = "ghcnd-inventory.txt"
   shell:
     "{input.script} {params.file}"
 
@@ -38,8 +38,8 @@ rule get_station_metadata:
   input:
     script = "code/get_ghcnd_data.sh"
   output:
-    "data/ghcnd_stations.txt"
+    "data/ghcnd-stations.txt"
   params:
-    file = "ghcnd_stations.txt"
+    file = "ghcnd-stations.txt"
   shell:
     "{input.script} {params.file}"
