@@ -1,6 +1,8 @@
 library(tidyverse)
 library(glue)
 library(lubridate)
+library(archive)
+library(furrr)
 
 # ------------------------------
 # Variable   Columns   Type
@@ -37,15 +39,22 @@ headers <-
   c("id", "year", "month", "element", quad(seq(1, 31, 1)))
 
 dly_files <-
-  list.files("data/ghcnd_all/", ".dly", full.names = TRUE)
+  archive("data/ghcnd_all.tar.gz") |>
+  slice(-1) |> 
+  slice_sample(n = 12) |> # for testing
+  pull(path)
 
-read_fwf(
-  dly_files,
-  fwf_widths(widths, headers),
-  na = c("NA", "-9999", ""),
-  col_types = cols(.default = col_character()),
-  col_select = c(id, year, month, element, starts_with("value"))
-) |>
+plan("multisession", workers = 12)
+
+dly_files |>
+  future_map_dfr(
+    ~read_fwf(
+    archive_read("data/ghcnd_all.tar.gz", .x),
+    fwf_widths(widths, headers),
+    na = c("NA", "-9999", ""),
+    col_types = cols(.default = col_character()),
+    col_select = c(id, year, month, element, starts_with("value"))
+  )) |>
   filter(element == "PRCP") |>
   select(-element) |>
   pivot_longer(starts_with("value"), names_to = "day", values_to = "prcp") |>
@@ -54,6 +63,6 @@ read_fwf(
     prcp_cm = as.numeric(prcp) / 100,
     date = ymd(glue("{year}-{month}-{day}"))
   ) |> # prcp now in cm
-  select(id, date, prcp_cm) |> 
+  select(id, date, prcp_cm) |>
   drop_na() |> # drop dates that do not exist
   write_tsv("data/composite_dly.tsv")
