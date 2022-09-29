@@ -1,8 +1,6 @@
 library(tidyverse)
 library(glue)
 library(lubridate)
-library(archive)
-library(furrr)
 
 # ------------------------------
 # Variable   Columns   Type
@@ -38,23 +36,13 @@ widths <-
 headers <-
   c("id", "year", "month", "element", quad(seq(1, 31, 1)))
 
-dly_files <-
-  archive("data/ghcnd_all.tar.gz") |>
-  slice(-1) |> 
-  slice_sample(n = 12) |> # for testing
-  pull(path)
-
-plan("multisession", workers = 12)
-
-dly_files |>
-  future_map_dfr(
-    ~read_fwf(
-    archive_read("data/ghcnd_all.tar.gz", .x),
+read_fwf("data/ghcnd_concat.gz",
     fwf_widths(widths, headers),
     na = c("NA", "-9999", ""),
     col_types = cols(.default = col_character()),
     col_select = c(id, year, month, element, starts_with("value"))
-  )) |>
+  )
+#|>
   filter(element == "PRCP") |>
   select(-element) |>
   pivot_longer(starts_with("value"), names_to = "day", values_to = "prcp") |>
