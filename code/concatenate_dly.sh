@@ -1,3 +1,9 @@
 #!/usr/bin/env bash
 
-tar Oxvzf data/ghcnd_all.tar.gz | grep "PRCP" | gzip -f > data/ghcnd_concat.gz 
+mkdir -p data/temp
+
+tar Oxvzf data/ghcnd_all.tar.gz | grep "PRCP" | split -l 1000000 --filter 'gzip -f > data/temp/$FILE.gz'
+
+code/read_split_dly_files.R
+
+rm -rf data/temp

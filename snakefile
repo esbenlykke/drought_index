@@ -4,7 +4,7 @@ rule targets:
     "data/ghcnd_all_filenames.txt",
     "data/ghcnd-inventory.txt",
     "data/ghcnd-stations.txt",
-    "data/ghcnd_concat.gz"
+    "data/ghcnd_tidy.tsv.gz"
 
 rule get_all_archive:
     input:
@@ -15,15 +15,6 @@ rule get_all_archive:
       "ghcnd_all.tar.gz"
     shell:
       "{input.script} {params}"
-
-rule concatenate_dly_files:
-    input:
-      script = "code/concatenate_dly.sh",
-      tarball = "data/ghcnd_all.tar.gz"
-    output:
-      "data/ghcnd_concat.gz"
-    shell:
-      "{input.script}"
       
 
 rule list_filenames:
@@ -54,3 +45,13 @@ rule get_station_metadata:
     file = "ghcnd-stations.txt"
   shell:
     "{input.script} {params.file}"
+
+rule summarise_dly_files:
+    input:
+      bash_script = "code/concatenate_dly.sh",
+      Rscript = "code/read_split_dly_files.R",
+      tarball = "data/ghcnd_all.tar.gz"
+    output:
+      "data/ghcnd_tidy.tsv.gz"
+    shell:
+      "{input.bash_script}"
