@@ -42,9 +42,8 @@ headers <-
   c("id", "year", "month", "element", quad(seq(1, 31, 1)))
 
 process_xfiles <- function(x) {
-  
   print(x)
-  
+
   read_fwf(x,
     fwf_widths(widths, headers),
     na = c("NA", "-9999", ""),
@@ -54,11 +53,11 @@ process_xfiles <- function(x) {
     pivot_longer(starts_with("value"), names_to = "day", values_to = "prcp") |>
     mutate(
       day = parse_number(day),
-      prcp_cm = as.numeric(prcp) / 100,
+      prcp = as.numeric(prcp) / 100,
       date = ymd(glue("{year}-{month}-{day}"))
     ) |> # prcp now in cm
-    select(id, date, prcp_cm) |>
-    filter(prcp_cm != 0) |>
+    select(id, date, prcp) |>
+    filter(prcp != 0) |>
     drop_na() |> # drop dates that do not exist
     mutate(
       julian_day = yday(date),
@@ -75,19 +74,21 @@ process_xfiles <- function(x) {
     filter(is_in_window) |>
     group_by(id, year) |>
     summarise(
-      prcp = sum(prcp_cm),
+      prcp = sum(prcp),
       .groups = "drop"
     )
 }
 
-xfiles <- 
+xfiles <-
   list.files("data/temp/", ".gz", full.names = TRUE)
 
 # plan("multisession", workers = 5)
 
-xfiles |> 
-  map_dfr(process_xfiles) |> 
-  group_by(id, year) |> 
-  summarise(prcp = sum(prcp_cm),
-            .groups = "drop") |> 
+xfiles |>
+  map_dfr(process_xfiles) |>
+  group_by(id, year) |>
+  summarise(
+    prcp = sum(prcp),
+    .groups = "drop"
+  ) |>
   write_tsv("data/ghcnd_tidy.tsv.gz")
