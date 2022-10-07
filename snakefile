@@ -4,18 +4,18 @@ rule targets:
     "data/ghcnd_all_filenames.txt",
     "data/ghcnd-inventory.txt",
     "data/ghcnd-stations.txt",
-    "data/ghcnd_tidy.tsv.gz"
+    "data/ghcnd_tidy.tsv.gz",
+    "data/ghcnd_regions_years.tsv"
 
 rule get_all_archive:
     input:
       script = "code/get_ghcnd_data.sh"
+    params:
+        "ghcnd_all.tar.gz" # Read up on how the params keyword works!
     output:
       "data/ghcnd_all.tar.gz"
-    params:
-      "ghcnd_all.tar.gz"
     shell:
       "{input.script} {params}"
-      
 
 rule list_filenames:
   input:
@@ -29,10 +29,10 @@ rule list_filenames:
 rule get_inventory:
   input:
     script = "code/get_ghcnd_data.sh"
+  params:
+      file = "ghcnd-inventory.txt"
   output:
     "data/ghcnd-inventory.txt"
-  params:
-    file = "ghcnd-inventory.txt"
   shell:
     "{input.script} {params.file}"
 
@@ -55,3 +55,12 @@ rule summarise_dly_files:
       "data/ghcnd_tidy.tsv.gz"
     shell:
       "{input.bash_script}"
+
+rule get_regions_years:
+    input:
+      r_script = "code/get_regions_years.R",
+      data = "data/ghcnd-inventory.txt"
+    output:
+      "data/ghcnd_regions_years.tsv"
+    shell:
+      "{input.r_script}"
