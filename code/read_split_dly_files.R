@@ -54,11 +54,11 @@ process_xfiles <- function(x) {
     mutate(
       day = parse_number(day),
       prcp = as.numeric(prcp) / 100,
-      date = ymd(glue("{year}-{month}-{day}"))
+      date = ymd(glue("{year}-{month}-{day}"), quiet = TRUE),
+      prcp = replace_na(prcp, 0)
     ) |> # prcp now in cm
+    drop_na(date)|> 
     select(id, date, prcp) |>
-    filter(prcp != 0) |>
-    drop_na() |> # drop dates that do not exist
     mutate(
       julian_day = yday(date),
       diff_day = yday(today()) - julian_day,
