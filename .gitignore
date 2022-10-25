@@ -1,5 +1,6 @@
 data/
 wget-log
+Rplots.pdf
 
 # History files
 .Rhistory
