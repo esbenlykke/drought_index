@@ -36,7 +36,7 @@ lat_long_prcp |>
   geom_tile() +
   coord_fixed() +
   scale_fill_gradient2(
-    low = "#d8b365", mid = "#f5f5f5", high = "#5ab4ac",
+    low = "brown", mid = "#f5f5f5", high = "#5ab4ac",
     breaks = seq(-2, 2, 1),
     labels = c("< -2", "-1", "0", "1", "> 2")
   ) +
@@ -48,7 +48,7 @@ lat_long_prcp |>
   theme(
     plot.title = element_text(hjust = .5),
     plot.subtitle = element_text(hjust = .5),
-    plot.caption = element_text(hjust = .9),
+    plot.caption = element_text(hjust = .9, size = 4),
     plot.background = element_rect(fill = "#202020", color = NA),
     panel.background = element_rect(fill = "#202020", color = NA),
     legend.text = element_text(color = "#909090", size = 6),
