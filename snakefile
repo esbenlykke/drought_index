@@ -6,7 +6,8 @@ rule targets:
     "data/ghcnd-stations.txt",
     "data/ghcnd_tidy.tsv.gz",
     "data/ghcnd_regions_years.tsv",
-    "visuals/heatmap_world_drought.pdf"
+    "visuals/heatmap_world_drought.png",
+    "index.html"
 
 rule get_all_archive:
     input:
@@ -72,8 +73,19 @@ rule plot_drought_by_region:
         prcp_data = "data/ghcnd_tidy.tsv.gz",
         station_data = "data/ghcnd_regions_years.tsv"
     output:
-        "visuals/heatmap_world_drought.pdf"
+        "visuals/heatmap_world_drought.png"
     shell:
         """
         {input.r_script}
         """
+
+rule render_index:
+  input:
+    qmd = "index.qmd",
+    vis = "visuals/heatmap_world_drought.png"
+  output:
+    "index.html"
+  shell:
+    """
+    quarto render {input.qmd}
+    """

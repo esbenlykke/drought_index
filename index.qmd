@@ -1,0 +1,27 @@
+---
+highlight-style: pygments
+format: 
+  html:
+    code-fold: true
+    html-math-method: katex
+    fontcolor: "#909090"
+    fontsize: 1vw
+toc: true
+number-sections: true
+backgroundcolor: "#202020"
+---
+
+```{r}
+#| echo: false
+#| message: false
+library(tidyverse)
+library(lubridate)
+```
+
+
+::: {.column-screen}
+![](visuals/heatmap_world_drought.png)
+:::
+Last updated `r format(today(), "%B %dth %Y")`.
+
+This [site](https://esbenlykke.github.io/drought_index/) is part of a project to pratice reproducible research developed by [Esben Lykke](mailto: eskovgaard@health.sdu.dk).
