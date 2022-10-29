@@ -25,3 +25,7 @@ jobs:
           directory: '.'
           snakefile: 'snakefile'
           args: '--cores 1 --use-conda --conda-cleanup-pkgs cache'
+      - name: configure git on runner
+        run: |
+          git config --local user.email "noreply@github.com"
+          git config --user.name "Github"
