@@ -14,4 +14,4 @@ dependencies:
   - graphviz=6.0.1
   # - libarchive-dev
   - coreutils>=9.1
-  - libuuid >=1.0.3
+  - libuuid >=v2.32.1
