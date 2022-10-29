@@ -6,13 +6,13 @@ channels:
   - R
   - defaults
 dependencies:
-  - r-base=4.2.1
-  - r-tidyverse=1.3.1
-  - quarto=1.1.145
-  - r-stringi=1.7.8
-  - wget=1.20.3
-  - snakemake=7.14.0
-  - graphviz=6.0.1
+  - r-base>=4.2.1
+  - r-tidyverse>=1.3.1
+  - quarto>=1.1.145
+  - r-stringi>=1.7.8
+  - wget>=1.20.3
+  - snakemake>=7.14.0
+  - graphviz>=6.0.1
   # - libarchive-dev
   - coreutils>=9.1
   # - libuuid>=v2.32.1
