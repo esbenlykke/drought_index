@@ -32,7 +32,7 @@ jobs:
           git config --local user.name "esbenlykke"
       - name: commit changes to repository
         run: |
-          git add visual/heatmap_world_drought.png index.html
+          git add visuals/heatmap_world_drought.png index.html
           git commit -m "new day's rendering"
           git push origin main
       - run: echo "🍏 This job's status is ${{ job.status }}."
