@@ -42,7 +42,7 @@ lat_long_prcp |>
   ) +
   labs(fill = "Z score",
        title = glue::glue("Amount of prcp from {start} to {end}"),
-       subtitle = "Standardized z-scores for at least the past 50 days",
+       subtitle = "Standardized z-scores for at least the past 50 years",
        caption = "Precipitation data from GHCND daily data at NOAA") +
   theme_void() +
   theme(
