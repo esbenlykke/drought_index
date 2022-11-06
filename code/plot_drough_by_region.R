@@ -2,6 +2,12 @@
 
 library(tidyverse)
 library(lubridate)
+library(showtext)
+
+font_add_google("Secular One", family = "secular-one")
+font_add_google("Cormorant Garamond", family = "c-garamond")
+
+showtext_auto()
 
 prcp_data <- read_tsv("data/ghcnd_tidy.tsv.gz")
 
@@ -46,12 +52,12 @@ lat_long_prcp |>
        caption = "Precipitation data from GHCND daily data at NOAA") +
   theme_void() +
   theme(
-    plot.title = element_text(hjust = .5),
-    plot.subtitle = element_text(hjust = .5),
-    plot.caption = element_text(hjust = .9, size = 4),
+    plot.title = element_text(hjust = .5, family = "secular-one"),
+    plot.subtitle = element_text(hjust = .5, family = "c-garamond"),
+    plot.caption = element_text(hjust = .9, size = 4, family = "c-garamond"),
     plot.background = element_rect(fill = "#202020", color = NA),
     panel.background = element_rect(fill = "#202020", color = NA),
-    legend.text = element_text(color = "#909090", size = 6),
+    legend.text = element_text(color = "#909090", size = 6, family = "c-garamond"),
     legend.title = element_blank(),
     legend.position = c(.15, .05),
     legend.direction = "horizontal",
@@ -62,4 +68,4 @@ lat_long_prcp |>
 ggsave("visuals/heatmap_world_drought.png", 
        height = 4, width = 8, 
        device = grDevices::png, 
-       dpi = 600)
+       dpi = 300)
