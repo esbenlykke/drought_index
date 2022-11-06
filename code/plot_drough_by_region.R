@@ -52,7 +52,7 @@ lat_long_prcp |>
        caption = "Precipitation data from GHCND daily data at NOAA") +
   theme_void() +
   theme(
-    plot.title = element_text(hjust = .5, family = "secular-one"),
+    plot.title = element_text(hjust = .5, size = 20, family = "secular-one"),
     plot.subtitle = element_text(hjust = .5, family = "c-garamond"),
     plot.caption = element_text(hjust = .9, size = 4, family = "c-garamond"),
     plot.background = element_rect(fill = "#202020", color = NA),
@@ -63,7 +63,7 @@ lat_long_prcp |>
     legend.direction = "horizontal",
     legend.key.height = unit(.2, "cm"),
     text = element_text(color = "#909090")
-  ) 
+  )
 
 ggsave("visuals/heatmap_world_drought.png", 
        height = 4, width = 8, 
