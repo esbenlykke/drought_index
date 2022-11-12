@@ -22,6 +22,6 @@ library(lubridate)
 ::: {.column-screen}
 ![](visuals/heatmap_world_drought.png)
 :::
-Last updated `r format(today(), "%B %dth %Y")`.
+Last updated `r format(today(), "%B %-d, %Y")`.
 
 This [site](https://esbenlykke.github.io/drought_index/) is part of a project to pratice reproducible research developed by [Esben Lykke](mailto: eskovgaard@health.sdu.dk).
