@@ -3,6 +3,7 @@
 library(tidyverse)
 library(lubridate)
 library(showtext)
+library(glue)
 
 font_add_google("Secular One", family = "secular-one")
 font_add_google("Cormorant Garamond", family = "c-garamond")
@@ -21,8 +22,23 @@ lat_long_prcp <- inner_join(prcp_data, station_data, by = "id") |>
   group_by(lat, lon, year) |>
   summarize(mean_prcp = mean(prcp), .groups = "drop")
 
-end <- format(today(), "%B %d")
-start <- format(today() - 30, "%B %d")
+end <- today() - 5
+start <- today() - 35
+
+end_all <- case_when(
+  month(start) != month(end) ~ format(end, "%B %-d, %Y"),
+  month(start) == month(end) ~ format(end, "%-d, %Y"),
+  TRUE ~ NA_character_)
+
+start_all <- case_when(
+  year(start) != year(end) ~ format(start, "%B %-d, %Y"),
+  year(start) == year(end) ~ format(start, "%B %-d"),
+  TRUE ~ NA_character_
+)
+
+date_range <- glue::glue("{start_all} to {end_all}")
+
+# TODO fix ordinal suffix to dates
 
 lat_long_prcp |>
   group_by(lat, lon) |>
@@ -47,7 +63,7 @@ lat_long_prcp |>
     labels = c("< -2", "-1", "0", "1", "> 2")
   ) +
   labs(fill = "Z score",
-       title = glue::glue("Amount of prcp from {start} to {end}"),
+       title = glue::glue("Amount of prcp from {date_range}"),
        subtitle = "Standardized z-scores for at least the past 50 years",
        caption = "Precipitation data from GHCND daily data at NOAA") +
   theme_void() +
