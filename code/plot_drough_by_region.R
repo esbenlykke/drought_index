@@ -41,9 +41,7 @@ date_range <- glue::glue("{start_all} to {end_all}")
 # TODO fix ordinal suffix to dates
 
 world_map <- map_data("world") |> 
-  filter(region != "Antarctica") |> 
-  mutate(long = round(long),
-         lat = round(lat))
+  filter(region != "Antarctica")
 
 lat_long_prcp |>
   group_by(lat, lon) |>
@@ -61,7 +59,7 @@ lat_long_prcp |>
   )) |>
   ggplot(aes(lon, lat, fill = z_score)) +
   geom_map(data = world_map, aes(map_id = region), map = world_map,
-           fill = NA, color ="#909090", size = .1, inherit.aes = FALSE) +
+           fill = NA, color ="#909090", size = .05, inherit.aes = FALSE) +
   expand_limits(x = world_map$long, y = world_map$lat) +
   geom_tile() +
   coord_fixed() +
@@ -77,8 +75,8 @@ lat_long_prcp |>
   theme_void() +
   theme(
     plot.title = element_text(hjust = .5, size = 20, family = "secular-one"),
-    plot.subtitle = element_text(hjust = .5, family = "c-garamond"),
-    plot.caption = element_text(hjust = .9, size = 4, family = "c-garamond"),
+    plot.subtitle = element_text(hjust = .5, size = 16 family = "c-garamond"),
+    plot.caption = element_text(hjust = .9, size = 12, family = "c-garamond"),
     plot.background = element_rect(fill = "#202020", color = NA),
     panel.background = element_rect(fill = "#202020", color = NA),
     legend.text = element_text(color = "#909090", size = 6, family = "c-garamond"),
