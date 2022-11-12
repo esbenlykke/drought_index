@@ -40,6 +40,11 @@ date_range <- glue::glue("{start_all} to {end_all}")
 
 # TODO fix ordinal suffix to dates
 
+world_map <- map_data("world") |> 
+  filter(region != "Antarctica") |> 
+  mutate(long = round(long),
+         lat = round(lat))
+
 lat_long_prcp |>
   group_by(lat, lon) |>
   mutate(
@@ -55,6 +60,9 @@ lat_long_prcp |>
     TRUE ~ z_score
   )) |>
   ggplot(aes(lon, lat, fill = z_score)) +
+  geom_map(data = world_map, aes(map_id = region), map = world_map,
+           fill = NA, color ="#909090", size = .1, inherit.aes = FALSE) +
+  expand_limits(x = world_map$long, y = world_map$lat) +
   geom_tile() +
   coord_fixed() +
   scale_fill_gradient2(
