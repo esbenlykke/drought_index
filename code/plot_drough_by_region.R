@@ -75,7 +75,7 @@ lat_long_prcp |>
   theme_void() +
   theme(
     plot.title = element_text(hjust = .5, size = 20, family = "secular-one"),
-    plot.subtitle = element_text(hjust = .5, size = 16 family = "c-garamond"),
+    plot.subtitle = element_text(hjust = .5, size = 16, family = "c-garamond"),
     plot.caption = element_text(hjust = .9, size = 12, family = "c-garamond"),
     plot.background = element_rect(fill = "#202020", color = NA),
     panel.background = element_rect(fill = "#202020", color = NA),
